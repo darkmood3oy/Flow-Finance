@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Flow Finance",
+  "description": "Professional high-performance finance tracker with natural language processing, advanced analytics, and bank-level automated statements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

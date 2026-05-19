@@ -1,0 +1,116 @@
+{
+  "entities": {
+    "transaction": {
+      "title": "Transaction",
+      "description": "A financial transaction linked to an account and category",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "accountId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "rawInput": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "accountId", "amount", "type", "date", "createdAt"]
+    },
+    "account": {
+      "title": "Account",
+      "description": "A financial container (wallet, bank, card)",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["cash", "bank", "credit", "savings"] },
+        "balance": { "type": "number" },
+        "currency": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "type", "balance"]
+    },
+    "category": {
+      "title": "Category",
+      "description": "Hierarchical spending/income classification",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "parentId": { "type": "string", "description": "Null for root categories" },
+        "icon": { "type": "string" },
+        "color": { "type": "string" }
+      },
+      "required": ["userId", "name"]
+    },
+    "budget": {
+      "title": "Budget",
+      "description": "Spending limits per category or period",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "limit": { "type": "number" },
+        "period": { "type": "string", "enum": ["weekly", "monthly", "yearly"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "limit", "period"]
+    },
+    "recurring": {
+      "title": "Recurring Transaction",
+      "description": "Rules for automated repeating cash flows",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "accountId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "description": { "type": "string" },
+        "frequency": { "type": "string", "enum": ["daily", "weekly", "monthly", "yearly"] },
+        "startDate": { "type": "string", "format": "date-time" },
+        "lastProcessed": { "type": "string", "format": "date-time" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["userId", "accountId", "amount", "type", "frequency", "startDate", "active"]
+    },
+    "userProfile": {
+      "title": "User Profile",
+      "description": "User specific settings and daily budget info",
+      "type": "object",
+      "properties": {
+        "dailyBudget": { "type": "number" },
+        "currency": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "transactions": {
+      "schema": "transaction",
+      "description": "Collection of all transactions"
+    },
+    "accounts": {
+      "schema": "account",
+      "description": "User financial accounts"
+    },
+    "categories": {
+      "schema": "category",
+      "description": "Category taxonomy"
+    },
+    "budgets": {
+      "schema": "budget",
+      "description": "Spending limit rules"
+    },
+    "recurring": {
+      "schema": "recurring",
+      "description": "Recurring transaction schedules"
+    },
+    "profiles": {
+      "schema": "userProfile",
+      "description": "User profile settings"
+    }
+  }
+}
